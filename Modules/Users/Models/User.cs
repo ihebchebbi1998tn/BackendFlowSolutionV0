@@ -62,5 +62,16 @@ namespace MyApi.Modules.Users.Models
         public string? RefreshToken { get; set; }
 
         public DateTime? TokenExpiresAt { get; set; }
+
+        // Technician-specific fields
+        [Column("Skills")]
+        public string[]? Skills { get; set; }
+
+        [MaxLength(50)]
+        [Column("CurrentStatus")]
+        public string? CurrentStatus { get; set; } = "offline";
+
+        [Column("LocationJson", TypeName = "jsonb")]
+        public string? LocationJson { get; set; }
     }
 }

@@ -49,6 +49,34 @@ namespace MyApi.Modules.ServiceOrders.Models
         [Column("assigned_technician_ids")]
         public string[]? AssignedTechnicianIds { get; set; }
 
+        // Planning fields
+        [Column("required_skills")]
+        public string[]? RequiredSkills { get; set; }
+
+        [Column("priority")]
+        [MaxLength(20)]
+        public string? Priority { get; set; } = "medium";
+
+        [Column("scheduled_date")]
+        public DateTime? ScheduledDate { get; set; }
+
+        [Column("scheduled_start_time")]
+        public TimeSpan? ScheduledStartTime { get; set; }
+
+        [Column("scheduled_end_time")]
+        public TimeSpan? ScheduledEndTime { get; set; }
+
+        [Column("location_json", TypeName = "jsonb")]
+        public string? LocationJson { get; set; }
+
+        [Column("customer_name")]
+        [MaxLength(255)]
+        public string? CustomerName { get; set; }
+
+        [Column("customer_phone")]
+        [MaxLength(50)]
+        public string? CustomerPhone { get; set; }
+
         [Required]
         [Column("created_at")]
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;

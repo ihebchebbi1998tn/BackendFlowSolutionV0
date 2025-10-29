@@ -24,6 +24,7 @@ using MyApi.Modules.Dispatches.Models;
 using MyApi.Modules.Dispatches.Data;
 using MyApi.Modules.ServiceOrders.Models;
 using MyApi.Modules.ServiceOrders.Data;
+using MyApi.Modules.Planning.Models;
 
 namespace MyApi.Data
 {
@@ -100,6 +101,12 @@ namespace MyApi.Data
 
         public DbSet<ServiceOrder> ServiceOrders { get; set; }
         public DbSet<ServiceOrderJob> ServiceOrderJobs { get; set; }
+
+        // Planning Module
+        public DbSet<TechnicianWorkingHours> TechnicianWorkingHours { get; set; }
+        public DbSet<TechnicianLeave> TechnicianLeaves { get; set; }
+        public DbSet<TechnicianStatusHistory> TechnicianStatusHistory { get; set; }
+        public DbSet<DispatchHistory> DispatchHistory { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

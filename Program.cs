@@ -13,6 +13,7 @@ using MyApi.Modules.Offers.Services;
 using MyApi.Modules.Sales.Services;
 using MyApi.Modules.Installations.Services;
 using MyApi.Modules.ServiceOrders.Services;
+using MyApi.Modules.Planning.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.EntityFrameworkCore;
@@ -159,6 +160,9 @@ builder.Services.AddScoped<IServiceOrderService, ServiceOrderService>();
 
 // Dispatches Module Services
 builder.Services.AddScoped<MyApi.Modules.Dispatches.Services.IDispatchService, MyApi.Modules.Dispatches.Services.DispatchService>();
+
+// Planning Module Services
+builder.Services.AddScoped<IPlanningService, PlanningService>();
 
 // CORS
 builder.Services.AddCors(options =>
