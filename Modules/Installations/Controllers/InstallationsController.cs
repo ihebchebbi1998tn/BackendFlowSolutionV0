@@ -8,7 +8,7 @@ namespace MyApi.Modules.Installations.Controllers
 {
     [Authorize]
     [ApiController]
-    [Route("api/v1/installations")]
+    [Route("api/installations")]
     public class InstallationsController : ControllerBase
     {
         private readonly IInstallationService _installationService;

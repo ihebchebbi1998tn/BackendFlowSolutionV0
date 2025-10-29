@@ -8,7 +8,7 @@ namespace MyApi.Modules.Offers.Controllers
 {
     [Authorize]
     [ApiController]
-    [Route("api/v1/offers")]
+    [Route("api/offers")]
     public class OffersController : ControllerBase
     {
         private readonly IOfferService _offerService;

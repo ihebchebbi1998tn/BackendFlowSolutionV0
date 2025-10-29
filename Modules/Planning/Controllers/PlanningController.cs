@@ -10,7 +10,7 @@ using MyApi.Modules.Planning.Services;
 namespace MyApi.Modules.Planning.Controllers
 {
     [ApiController]
-    [Route("api/v1/planning")]
+    [Route("api/planning")]
     public class PlanningController : ControllerBase
     {
         private readonly IPlanningService _planningService;

@@ -8,7 +8,7 @@ namespace MyApi.Modules.ServiceOrders.Controllers
 {
     [Authorize]
     [ApiController]
-    [Route("api/v1/service-orders")]
+    [Route("api/service-orders")]
     public class ServiceOrdersController : ControllerBase
     {
         private readonly IServiceOrderService _serviceOrderService;

@@ -8,7 +8,7 @@ namespace MyApi.Modules.Sales.Controllers
 {
     [Authorize]
     [ApiController]
-    [Route("api/v1/sales")]
+    [Route("api/sales")]
     public class SalesController : ControllerBase
     {
         private readonly ISaleService _saleService;

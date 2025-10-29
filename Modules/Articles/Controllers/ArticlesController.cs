@@ -9,7 +9,7 @@ namespace MyApi.Modules.Articles.Controllers
 {
     [Authorize]
     [ApiController]
-    [Route("api/v1/articles")]
+    [Route("api/articles")]
     public class ArticlesController : ControllerBase
     {
         private readonly IArticleService _articleService;
