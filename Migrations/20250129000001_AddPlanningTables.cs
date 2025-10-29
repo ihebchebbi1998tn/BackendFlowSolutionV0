@@ -144,8 +144,7 @@ namespace MyApi.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_technician_status_history_changed_at",
                 table: "technician_status_history",
-                column: "changed_at",
-                descending: true);
+                column: "changed_at");
 
             // 4. Create dispatch_history table
             migrationBuilder.CreateTable(
@@ -182,8 +181,7 @@ namespace MyApi.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_dispatch_history_changed_at",
                 table: "dispatch_history",
-                column: "changed_at",
-                descending: true);
+                column: "changed_at");
 
             migrationBuilder.CreateIndex(
                 name: "IX_dispatch_history_action",

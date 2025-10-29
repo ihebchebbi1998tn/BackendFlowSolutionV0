@@ -395,12 +395,15 @@ namespace MyApi.Modules.Planning.Services
                 try
                 {
                     var locData = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, object>>(job.LocationJson);
-                    location = new LocationDto
+                    if (locData != null)
                     {
-                        Address = locData.ContainsKey("address") ? locData["address"]?.ToString() ?? "" : "",
-                        Lat = locData.ContainsKey("lat") && double.TryParse(locData["lat"]?.ToString(), out var lat) ? lat : null,
-                        Lng = locData.ContainsKey("lng") && double.TryParse(locData["lng"]?.ToString(), out var lng) ? lng : null
-                    };
+                        location = new LocationDto
+                        {
+                            Address = locData.ContainsKey("address") ? locData["address"]?.ToString() ?? "" : "",
+                            Lat = locData.ContainsKey("lat") && double.TryParse(locData["lat"]?.ToString(), out var lat) ? lat : null,
+                            Lng = locData.ContainsKey("lng") && double.TryParse(locData["lng"]?.ToString(), out var lng) ? lng : null
+                        };
+                    }
                 }
                 catch { }
             }
@@ -452,7 +455,7 @@ namespace MyApi.Modules.Planning.Services
                 Id = dispatch.Id,
                 DispatchNumber = dispatch.DispatchNumber,
                 JobId = dispatch.JobId ?? "",
-                JobTitle = dispatch.Title ?? "Job Title",
+                JobTitle = dispatch.DispatchNumber, // Use dispatch number as title
                 ServiceOrderId = dispatch.ServiceOrderId ?? "",
                 ScheduledDate = dispatch.ScheduledDate ?? DateTime.MinValue,
                 ScheduledStartTime = dispatch.ScheduledStartTime ?? TimeSpan.Zero,
