@@ -5,7 +5,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace MyApi.Migrations
 {
-    public partial class AddPlanningTables : Migration
+    public partial class AddPlanningTablesFresh : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -30,9 +30,9 @@ namespace MyApi.Migrations
                 {
                     table.PrimaryKey("PK_technician_working_hours", x => x.id);
                     table.ForeignKey(
-                        name: "FK_technician_working_hours_Users_technician_id",
+                        name: "FK_technician_working_hours_users_technician_id",
                         column: x => x.technician_id,
-                        principalTable: "Users",
+                        principalTable: "users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.CheckConstraint("CK_day_of_week_range", "day_of_week >= 0 AND day_of_week <= 6");
@@ -72,15 +72,15 @@ namespace MyApi.Migrations
                 {
                     table.PrimaryKey("PK_technician_leaves", x => x.id);
                     table.ForeignKey(
-                        name: "FK_technician_leaves_Users_technician_id",
+                        name: "FK_technician_leaves_users_technician_id",
                         column: x => x.technician_id,
-                        principalTable: "Users",
+                        principalTable: "users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_technician_leaves_Users_approved_by",
+                        name: "FK_technician_leaves_users_approved_by",
                         column: x => x.approved_by,
-                        principalTable: "Users",
+                        principalTable: "users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.SetNull);
                     table.CheckConstraint("CK_valid_leave_type", "leave_type IN ('vacation', 'sick', 'personal', 'training', 'other')");
@@ -122,15 +122,15 @@ namespace MyApi.Migrations
                 {
                     table.PrimaryKey("PK_technician_status_history", x => x.id);
                     table.ForeignKey(
-                        name: "FK_technician_status_history_Users_technician_id",
+                        name: "FK_technician_status_history_users_technician_id",
                         column: x => x.technician_id,
-                        principalTable: "Users",
+                        principalTable: "users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_technician_status_history_Users_changed_by",
+                        name: "FK_technician_status_history_users_changed_by",
                         column: x => x.changed_by,
-                        principalTable: "Users",
+                        principalTable: "users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.SetNull);
                     table.CheckConstraint("CK_valid_technician_status", "status IN ('available', 'busy', 'offline', 'on_leave', 'not_working', 'over_capacity')");
@@ -256,16 +256,16 @@ namespace MyApi.Migrations
                 table: "service_order_jobs",
                 column: "priority");
 
-            // 6. Add columns to Users table
+            // 6. Add columns to users table
             migrationBuilder.AddColumn<string[]>(
                 name: "Skills",
-                table: "Users",
+                table: "users",
                 type: "text[]",
                 nullable: true);
 
             migrationBuilder.AddColumn<string>(
                 name: "CurrentStatus",
-                table: "Users",
+                table: "users",
                 type: "character varying(50)",
                 maxLength: 50,
                 nullable: true,
@@ -273,18 +273,18 @@ namespace MyApi.Migrations
 
             migrationBuilder.AddColumn<string>(
                 name: "LocationJson",
-                table: "Users",
+                table: "users",
                 type: "jsonb",
                 nullable: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Users_Role",
-                table: "Users",
+                name: "IX_users_Role",
+                table: "users",
                 column: "Role");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Users_CurrentStatus",
-                table: "Users",
+                name: "IX_users_CurrentStatus",
+                table: "users",
                 column: "CurrentStatus");
         }
 
@@ -309,12 +309,12 @@ namespace MyApi.Migrations
             migrationBuilder.DropColumn(name: "priority", table: "service_order_jobs");
             migrationBuilder.DropColumn(name: "required_skills", table: "service_order_jobs");
 
-            // Remove columns from Users
-            migrationBuilder.DropIndex(name: "IX_Users_CurrentStatus", table: "Users");
-            migrationBuilder.DropIndex(name: "IX_Users_Role", table: "Users");
-            migrationBuilder.DropColumn(name: "LocationJson", table: "Users");
-            migrationBuilder.DropColumn(name: "CurrentStatus", table: "Users");
-            migrationBuilder.DropColumn(name: "Skills", table: "Users");
+            // Remove columns from users
+            migrationBuilder.DropIndex(name: "IX_users_CurrentStatus", table: "users");
+            migrationBuilder.DropIndex(name: "IX_users_Role", table: "users");
+            migrationBuilder.DropColumn(name: "LocationJson", table: "users");
+            migrationBuilder.DropColumn(name: "CurrentStatus", table: "users");
+            migrationBuilder.DropColumn(name: "Skills", table: "users");
         }
     }
 }
