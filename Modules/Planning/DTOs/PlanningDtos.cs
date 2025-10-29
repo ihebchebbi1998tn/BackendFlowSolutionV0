@@ -158,21 +158,6 @@ namespace MyApi.Modules.Planning.DTOs
         public DateTime UpdatedAt { get; set; }
     }
 
-    // Pagination DTOs
-    public class PagedResult<T>
-    {
-        public List<T> Items { get; set; } = new();
-        public PaginationDto Pagination { get; set; } = new();
-    }
-
-    public class PaginationDto
-    {
-        public int Page { get; set; }
-        public int PageSize { get; set; }
-        public int TotalItems { get; set; }
-        public int TotalPages { get; set; }
-    }
-
     // Technician Availability DTO
     public class TechnicianAvailabilityDto
     {

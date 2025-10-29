@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using MyApi.Modules.Planning.DTOs;
+using MyApi.Modules.Dispatches.DTOs;
 
 namespace MyApi.Modules.Planning.Services
 {

@@ -259,14 +259,11 @@ namespace MyApi.Modules.Planning.Services
 
             return new PagedResult<ServiceOrderJobDto>
             {
-                Items = items.Select(MapJobToDto).ToList(),
-                Pagination = new PaginationDto
-                {
-                    Page = page,
-                    PageSize = pageSize,
-                    TotalItems = total,
-                    TotalPages = (int)Math.Ceiling(total / (double)pageSize)
-                }
+                Data = items.Select(MapJobToDto).ToList(),
+                PageNumber = page,
+                PageSize = pageSize,
+                TotalItems = total,
+                TotalPages = (int)Math.Ceiling(total / (double)pageSize)
             };
         }
 
