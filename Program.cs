@@ -252,9 +252,64 @@ using (var scope = app.Services.CreateScope())
 
         try
         {
-            migrationLogger.LogInformation("📋 Fetching all existing tables from Neon database...");
+            migrationLogger.LogInformation("📋 Validating database tables...");
 
-            var tables = context.Database.SqlQueryRaw<string>(
+            // Define expected tables based on migrations
+            var expectedTables = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
+            {
+                "__EFMigrationsHistory",
+                "main_admin_users",
+                "users",
+                "user_preferences",
+                "roles",
+                "user_roles",
+                "skills",
+                "user_skills",
+                "role_skills",
+                "contacts",
+                "contact_tags",
+                "contact_tag_assignments",
+                "contact_notes",
+                "articles",
+                "article_categories",
+                "locations",
+                "inventory_transactions",
+                "calendar_events",
+                "event_attendees",
+                "event_reminders",
+                "event_types",
+                "lookups",
+                "currencies",
+                "offers",
+                "offer_items",
+                "offer_activities",
+                "sales",
+                "sale_items",
+                "sale_activities",
+                "installations",
+                "maintenance_history",
+                "service_orders",
+                "service_order_jobs",
+                "projects",
+                "project_columns",
+                "project_tasks",
+                "task_comments",
+                "task_attachments",
+                "daily_tasks",
+                "dispatches",
+                "dispatch_technicians",
+                "time_entries",
+                "expenses",
+                "material_usage",
+                "notes",
+                "attachments",
+                "technician_working_hours",
+                "technician_leaves",
+                "technician_status_history",
+                "dispatch_history"
+            };
+
+            var existingTables = context.Database.SqlQueryRaw<string>(
                 @"SELECT table_name 
                   FROM information_schema.tables 
                   WHERE table_schema = 'public' 
@@ -262,22 +317,62 @@ using (var scope = app.Services.CreateScope())
                   ORDER BY table_name"
             ).ToList();
 
-            if (tables.Any())
+            var existingSet = new HashSet<string>(existingTables, StringComparer.OrdinalIgnoreCase);
+            
+            migrationLogger.LogInformation($"📊 Database Table Validation Report:");
+            migrationLogger.LogInformation($"   Expected: {expectedTables.Count} tables | Found: {existingTables.Count} tables");
+            migrationLogger.LogInformation("");
+
+            // Show created tables
+            var createdTables = expectedTables.Where(t => existingSet.Contains(t)).OrderBy(t => t).ToList();
+            if (createdTables.Any())
             {
-                migrationLogger.LogInformation($"✅ Found {tables.Count} table(s) in the database:");
-                foreach (var table in tables)
+                migrationLogger.LogInformation("✅ Created Tables:");
+                foreach (var table in createdTables)
                 {
-                    migrationLogger.LogInformation($"   📊 {table}");
+                    migrationLogger.LogInformation($"   ✅ {table}");
                 }
+            }
+
+            // Show missing tables in red/error
+            var missingTables = expectedTables.Where(t => !existingSet.Contains(t)).OrderBy(t => t).ToList();
+            if (missingTables.Any())
+            {
+                migrationLogger.LogError("");
+                migrationLogger.LogError($"❌ Missing Tables ({missingTables.Count}):");
+                foreach (var table in missingTables)
+                {
+                    migrationLogger.LogError($"   ❌ {table} - NOT CREATED");
+                }
+                migrationLogger.LogError("");
+            }
+
+            // Show unexpected tables (exist but not in expected list)
+            var unexpectedTables = existingSet.Where(t => !expectedTables.Contains(t)).OrderBy(t => t).ToList();
+            if (unexpectedTables.Any())
+            {
+                migrationLogger.LogWarning("");
+                migrationLogger.LogWarning($"⚠️ Unexpected Tables ({unexpectedTables.Count}):");
+                foreach (var table in unexpectedTables)
+                {
+                    migrationLogger.LogWarning($"   ⚠️ {table}");
+                }
+            }
+
+            // Summary
+            migrationLogger.LogInformation("");
+            if (missingTables.Any())
+            {
+                migrationLogger.LogError($"❌ Database validation FAILED - {missingTables.Count} table(s) missing!");
             }
             else
             {
-                migrationLogger.LogWarning("⚠️ No tables found in the database.");
+                migrationLogger.LogInformation("✅ Database validation PASSED - All expected tables exist!");
             }
         }
         catch (Exception tableEx)
         {
-            migrationLogger.LogError(tableEx, "❌ Error while fetching table list from database.");
+            migrationLogger.LogError(tableEx, "❌ Error while validating database tables.");
         }
     }
     catch (Exception ex)
